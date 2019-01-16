@@ -17,8 +17,15 @@
   {{ content_for_header }}
 </head>
 
-<body>
-  <p>HELLO</p>
-  {{ content_for_layout }}
+<body class="{{ template | replace: '.', ' ' | truncatewords: 1, '' }}" id="{{ page_title | handle }}"> <!-- this creates a selector for the specific page being rendered, more details: https://help.shopify.com/en/themes/development/layouts/theme-liquid -->
+
+  {% section 'header' %}
+
+  <main>
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
 </body>
 </html>
