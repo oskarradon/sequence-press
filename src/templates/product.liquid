@@ -1,0 +1,81 @@
+<h1>
+  {{ product.title }}
+  {% for variant in product.variants %}
+    {% if variant.available %}
+    {% else %}
+      <span class="soldout"><em>{{ variant.title }}</em> is currently Sold Out! :(</span>
+    {% endif %}
+  {% endfor %}
+</h1>
+<!--product-block-->
+<div class="product-block">
+	<div class="visual-column">
+
+		{% for image in product.images %}
+			{% if forloop.first %}
+				<a href="{{ image | product_img_url: 'large' }}" class="productimage" rel="lightbox-{{ product.handle }}" title="Pictures of {{product.title | escape }}">
+				  <img src="{{ image | product_img_url: 'large'}}" alt="{{product.title | escape }}" />
+				</a>
+			{% else %}
+				{% if forloop.index == 2 %}
+				<ul>
+				{% endif %}
+					<li>
+						<a href="{{ image | product_img_url: 'large' }}" class="productimage-small" rel="lightbox-{{ product.handle }}" title="">
+						  <img src="{{ image | product_img_url: 'small'}}" alt="" />
+						</a>
+					</li>
+                {% if forloop.last %}
+				</ul>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+	</div>
+	<div class="user-column">
+		{{ product.description }}
+
+{% unless product.price == 0 %}
+  <div id="product-variants">
+     <form action="/cart/add" method="post" class="cartableProduct">
+		<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+    	<span class="price">{{product.price | money }}</span> <input type="image" src="{{ 'add_to_cart.png' | asset_url }}" name="add" value="Add To Cart" id="purchase" />
+	</form>
+  </div>
+{% endunless %}
+
+
+	</div>
+</div>
+
+
+
+{% assign: thisproduct = product.title %}
+{% for collection in product.collections %}
+	{% if collection.title contains "related" %}
+	<div class="related">
+		{% if collection.products.size > 0 %}
+			<p class="also">Also...</p>
+		{% endif %}
+		<div class="collection-block">
+		<div class="row">
+		<ul class="product_listings">
+
+	    {% for product in collection.products %}
+			{% unless product.title == thisproduct %}
+				<li>
+                    <div class="block">
+                            <a href="{{product.url}}" class="prodimg"><img alt="{{product.title}}" src="{{ product.featured_image | product_img_url: 'compact' }}" /></a>
+                            <div class="deets">
+                                  <h3><a href="{{product.url}}">{{product.title}}</a></h3>
+										    <div><span class="editor">Editor: </span> {{ product.tags | truncatewords: 30 }} </div>
+                            </div>
+                    </div>
+				</li>
+			{% endunless %}
+		{% endfor %}
+		</ul>
+		</div>
+		</div>
+	</div>
+	{% endif %}
+{% endfor %}
