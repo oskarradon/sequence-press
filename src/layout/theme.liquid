@@ -7,25 +7,116 @@
   <meta name="theme-color" content="">
   <link rel="canonical" href="{{ canonical_url }}">
 
-  <title>{{ shop.name }}</title>
+  <title>{{shop.name}} - {{page_title}}</title>
 
-  <meta name="description" content="">
+  {% assign maxwords = 20 %}
+      {% case template %}
+      {% when 'index' %}
+          <meta name="description" content="Established in 2010, this international publishing and special editions enterprise was founded to nurture potent, yet under-recognized voices in contemporary philosophy and the arts. "/>
+          <meta name="keywords" content="books,lectures,events,publications,art galleries,art,alternative spaces" />
+      {% when 'collection' %}
+          <meta name="description" content="{{page_title}}{% if collection.description.size > 0 %}: {{collection.description | strip_html | truncatewords:maxwords}}{% endif %}"/>
+          <meta name="keywords" content= "{{collection.title}}{% if collection.tags.size > 0 %}: {{ collection.tags | join: ', ' }}{% endif %}" />
+      {% when 'product' %}
+          <meta name="description" content="{{page_title}}{% if product.description.size > 0 %}: {{product.description | strip_html | truncatewords:maxwords}}{% endif %}"/>
+          <meta name="keywords" content="{{product.title}}{% if product.tags.size > 0 %}: {{ product.tags | join: ', ' }}{% endif %}">
+      {% when 'page' %}
+          <meta name="description" content="{{page_title}}: {{page.content | strip_html | truncatewords:maxwords}}"/>
+          <meta name="keywords" content="{{page_title}}">
+      {% when 'blog' %}
+          <meta name="description" content="{{page_title}}"/>
+          <meta name="keywords" content="{{page_title}}">
+      {% else %}
+          <meta name="description" content="{{shop.name}}{% if blogs.[indexblog].articles.size > 0 %}: {% for article in blogs.[indexblog].articles limit:1 %}{{ article.title }}: {{article.content | strip_html | truncatewords:maxwords}}{% endfor %}{% endif %}"/>
+          <meta name="keywords" content= "{% for link in linklists.Main-Menu.links %}{% if link.type == 'collection_link' %}{{link.title}} {% endif %}{% endfor %}" />
+      {% endcase %}
 
-  {% include 'style-tags', layout: 'theme' %}
-  {% include 'script-tags', layout: 'theme' %}
+
+
+
+
+  	<link rel="shortcut icon" href="{{ 'favicon.ico' | asset_url }}" />
+  	{{ 'textile.css'  | global_asset_url | stylesheet_tag }}
+
+    {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+  	{{ 'jquery-1.3.2.min.js'       | asset_url | script_tag }}
+  	{{ 'jquery-easing.1.2.pack.js' | asset_url | script_tag }}
+  	{{ 'jquery-easing-compatibility.1.2.pack.js' | asset_url | script_tag }}
+
+  	{{ 'slimbox2.js'               | asset_url | script_tag }}
+
+  	{{ 'all.css'     | asset_url | stylesheet_tag }}
 
   {{ content_for_header }}
 </head>
 
-<body class="{{ template | replace: '.', ' ' | truncatewords: 1, '' }}" id="{{ page_title | handle }}"> <!-- this creates a selector for the specific page being rendered, more details: https://help.shopify.com/en/themes/development/layouts/theme-liquid -->
+<body>
 
-  {% section 'header' %}
+  <!--main holder-->
+	<div id="main">
+		<!--header-->
+		<div id="header">
+                        <div id="custom-logo">
 
-  <main>
-    {{ content_for_layout }}
-  </main>
+			<!--logo-->
+			<strong class="logo"><a href="/">{{shop.name}}</a></strong>
 
-  {% section 'footer' %}
+			<div class="shoping-bag">
+			       {% if cart.item_count == 0 %}
+        			{% else %}
+					<p>You have {{cart.item_count}} item{% if cart.item_count != 1 %}s{% endif %} in your cart. <a href="/cart">Checkout</a></p>
+				{% endif %}
+			</div>
 
+            </div>
+			<div class="tools-bar">
+				<ul class="navigation">{% for link in linklists.main-menu.links %}{% assign current = false %}{% if template == 'index' and link.url == '/' %}{% assign current = true %}{% elsif collection.url == link.url %}{% assign current = true %}{% elsif blog.url == link.url %}{% assign current = true %}{% elsif page.url == link.url %}{% assign current = true %}{% elsif page_title == link.title %}{% assign current = true %}{% elsif template == 'list-collections' and link.url == '/collections' %}{% assign current = true %}{% elsif page_title == 'Products' and link.url == '/collections/all' %}{% assign current = true %}{% elsif template == 'article' and link.url == article.url %}{% assign current = true %}{% endif %}
+				  <li class="{% if current %}active{% endif %} {% if forloop.first %} first{% endif %} "><a class=" {{ link.handle }}" href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<!--container-->
+		<div id="container">
+			<div class="wrapper">
+				<!--content-->
+				<div class="{% if template == 'index' %}content{% else %}content-inner{% endif %}">
+					{{ content_for_layout }}
+				</div>
+			</div>
+		</div>
+		<!--footer-->
+		<div id="footer">
+			<div class="holder">
+				<ul class="footer-nav">
+						<li class="sequenceimg"><a href="/"><img src="{{ 'sequence_logo_small2.png' | asset_url }}" alt="Sequence Press Logo"></a> </li>
+						<li class="sequence" >&copy; Sequence Press,  {{ "now" | date: "%Y" }}</li>
+		            {% for link in linklists.footer.links %}
+		               <li class=" {% cycle 'first', '', '', '' %}">{{ link.title | link_to: link.url }}</li>
+		            {% endfor %}
+				</ul>
+				<div class="mailing_list">
+
+
+					<form method="post" action="http://ymlp.com/subscribe.php?id=gmeumbugmgj" target="_blank">
+					  <table class="signup" align="center" border="0" cellpadding="5" cellspacing="0">
+					    <tbody>
+					      <tr>
+					        <td colspan="2">Mailing List</td>
+					        <td valign="top"><input name="YMP0" size="20" class="singupinput" value="Enter email" onblur="this.value=!this.value?'Enter email':this.value;" onfocus="this.select()" onclick="this.value='';" type="text"></td>
+					        <td colspan="2"><input value="Submit" class="signup_submit" type="submit"></td>
+					      </tr>
+						</tbody>
+					</table>
+					</form>
+
+
+
+
+				</div>
+			</div>
+
+		</div>
+	</div>
 </body>
 </html>

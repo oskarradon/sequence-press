@@ -1,0 +1,63 @@
+<script type="text/javascript">
+  function remove_item(id) {
+      document.getElementById('updates_'+id).value = 0;
+      document.getElementById('cartform').submit();
+  }
+</script>
+  <h1>My Shopping Bag</h1>
+<div id="cart">
+
+  <div id="cart-content">
+  {% if cart.item_count == 0 %}
+    <p>Your shopping cart is empty...</p>
+  {% else %}
+
+  <form action="/cart" method="post" id="cartform">
+
+
+
+    <ul id="line-items">
+      {% for item in cart.items %}
+      <li id="item-{{item.id}}" class="clearfix">
+	  	<div class="product-block">
+
+	        <div class="visual-column">
+	          <img src="{{item.product.featured_image | product_img_url: 'small' }}" alt="{{item.title | escape }}" title="{{item.title | escape }}" />
+	        </div>
+			<div class="user-column">
+	       	 <h3><a href="{{item.product.url}}">{{ item.title }}</a></h3>
+	      	  <span class="money">{{ item.price | money}} </span>
+			{% for field in product.metafields.releasedate %}
+		   	<p class="note">{{ field | first }} : {{ field | last }}</p>
+		   {% endfor %}
+
+
+
+	     	   <p class="right">
+	       	   <label for="updates">Quantity</label>
+	      	    <input type="text" size="4" name="updates[{{item.variant.id}}]" id="updates_{{item.variant.id}}" value="{{item.quantity}}" onfocus="this.select();"/><br />
+	      	   <a href="#" onclick="remove_item({{item.variant.id}}); return false;" class="remove">remove this item</a>
+	       	 </p>
+			</div>
+		</div>
+      </li>
+      {% endfor %}
+      <li class="actions">
+        <input type="submit" id="update-cart" name="update" value="Update Cart" />
+        <input type="submit" value="Proceed to Checkout" name="checkout" class="primary" /> &raquo;
+      </li>
+      <li id="total">
+        Subtotal:
+        <span class="money">{{ cart.total_price | money_with_currency }}</span>
+      </li>
+    </ul>
+
+  </form>
+
+  {% endif %}
+
+  </div>
+
+  <p class="cart-bottom"><em>&nbsp;</em></p>
+
+</div>

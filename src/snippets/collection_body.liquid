@@ -1,0 +1,50 @@
+<h1 class="collectiontitle">{{collection.title}}</h1>
+<div class="collection_description">{{collection.description}}</div>
+<!--collection-block-->
+{% paginate collection.products by 99 %}
+	<div class="collection-block {{collection.handle}}">
+		<div class="row">
+
+
+            {% assign i='0' %}
+            {% for product in collection.products %}
+
+
+                    {% if i == '4'  %}
+                            {% assign i = '0' %}
+                            </div>
+                            <div class="row">
+                    {% endif %}
+
+
+
+                    <div class="block">
+                            <a href="{{product.url}}" class="prodimg"><img alt="{{product.title}}" src="{{ product.featured_image | product_img_url: 'medium' }}" /></a>
+                            <div class="deets">
+                                    <h3><a href="{{product.url}}">{{product.title}}</a></h3>
+				    <div><span class="editor">Editor: </span> {{ product.tags | truncatewords: 30 }} </div>
+                            </div>
+                    </div>
+
+                    {% case i %}
+                            {% when '3' %}
+                                    {% assign i='4' %}
+                            {% when '2' %}
+                                    {% assign i='3' %}
+                            {% when '1' %}
+                                    {% assign i='2' %}
+                            {% when '0' %}
+                                    {% assign i='1' %}
+                            {% else %}
+                    {% endcase %}
+
+            {% endfor %}
+
+
+
+		</div>
+	</div>
+	<div class="page-upper">
+		{{ paginate | default_pagination }}
+	</div>
+{% endpaginate %}

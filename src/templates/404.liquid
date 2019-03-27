@@ -1,0 +1,17 @@
+<h1 id="page-title">Oh Dear, looks like the page you are looking for may have been moved.</h1>
+
+<div class="article-body textile">
+
+
+
+        <form action="{{ shop.url }}/search" method="get" accept-charset="utf-8">
+          <p>Perhaps try the a search or simply contact us at any time.</p>
+          <input type="text" name="q" value="{% if handle %}{{ handle }}{% else %}Search...{% endif %}" onfocus="if(this.value == 'Search...') { this.value = '' }" />
+          <input type="submit" value="Search"/>
+        </form>
+
+        <p>Back to <a href="{{ shop.url }}">{{ shop.name }}</a> |
+                   <a href="#" onClick="history.back(); return false;">previous page</a>
+        </p>
+
+</div>

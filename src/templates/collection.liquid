@@ -1,0 +1,33 @@
+<div class="subnav">
+
+	<div class="left">
+		<ul class="navigation">{% for link in linklists.shop-menu.links %}{% assign current = false %}{% if template == 'index' and link.url == '/' %}{% assign current = true %}{% elsif collection.url == link.url %}{% assign current = true %}{% elsif blog.url == link.url %}{% assign current = true %}{% elsif page.url == link.url %}{% assign current = true %}{% elsif page_title == link.title %}{% assign current = true %}{% elsif template == 'list-collections' and link.url == '/collections' %}{% assign current = true %}{% elsif page_title == 'Products' and link.url == '/collections/all' %}{% assign current = true %}{% elsif template == 'article' and link.url == article.url %}{% assign current = true %}{% endif %}
+		  <li class="{% if forloop.first %}first{% endif %} {% if current %}active{% endif %}"><a href="{{ link.url }}" class="{{ link.handle }}">{{ link.title }}</a></li>{% endfor %}
+		</ul>
+	</div>
+	<div class="right">
+		<!--
+		<select onchange="window.location = this.options[this.selectedIndex].value;" class="sortbydatetitle">
+			<option value="">Sort by:</option>
+			<option value="/collections/publications-alpha">Title</option>
+			<option value="/collections/publications-date">Date Published</option>
+		</select>
+		-->
+		<select onchange="window.location = this.options[this.selectedIndex].value;"  class="sortbyauthor">
+			<option value="">Sort by author</option>
+
+			{% for tag in collection.all_tags %}
+			<option value="{{ collection.url }}/{{ tag | handle }}">{{ tag  }}</option>
+			{% endfor %}
+
+
+		</select>
+
+
+	</div>
+
+</div>
+
+
+
+{% include 'collection_body' %}

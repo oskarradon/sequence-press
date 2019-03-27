@@ -1,0 +1,33 @@
+<div class="subnav">
+
+	<div class="left">
+		<ul class="navigation">
+			<li class="first active"><a href="/collections/publications-date" class="publications">Publications</a></li>
+			<li><a href="/collections/special-editions-date" class="special-editions">Special Editions</a></li>
+			<li><a href="/collections/music-date" class="music">Music</a></li>
+			<li><a href="/collections/film-date" class="film">Film</a></li>
+		</ul>
+	</div>
+	<div class="right">
+		<select onchange="window.location = this.options[this.selectedIndex].value;" class="sortbydatetitle">
+			<option value="">Sort by:</option>
+			<option value="/collections/publications-alpha">Title</option>
+			<option value="/collections/publications-date">Date Published</option>
+		</select>
+
+		<select onchange="window.location = this.options[this.selectedIndex].value;"  class="sortbyauthor">
+			<option value="">Sort by author</option>
+
+			{% for tag in collection.all_tags %}
+			<option value="{{ collection.url }}/{{ tag | handle }}">{{ tag  }}</option>
+			{% endfor %}
+
+
+		</select>
+
+
+	</div>
+
+</div>
+
+{% include 'collection_body' %}
