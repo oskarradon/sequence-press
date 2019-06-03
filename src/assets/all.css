@@ -898,9 +898,9 @@ h1.collectiontitle {
 }
 /*mainnav imagery*/
 
-.tools-bar li a {
-	/* background: url(main_nav2.png);
-	text-indent: -9999px; */
+/* .tools-bar li a {
+	background: url(main_nav2.png);
+	text-indent: -9999px;
 	margin-left: 35px;
 	padding: 0!important;
 	height: 20px;
@@ -936,7 +936,7 @@ h1.collectiontitle {
 .tools-bar li a:hover.contact,
 .tools-bar li.active a.contact {
 	background-position: -242px -32px;
-}
+} */
 /* end of mainnav */
 
 /*subnav imagery*/
@@ -1269,9 +1269,15 @@ li.actions {
 /*MAIN CONTAINER*/
 
 #main {
-	margin: 5px 0 0 75px;
-	padding: 0 0 100px;
-	width: 940px;
+ margin: 0 15px;
+}
+
+@media screen and (min-width: 940px) {
+	#main {
+		width: 940px;
+		margin: 5px 0 0 75px;
+		padding: 0 0 100px;
+	}
 }
 /* SLIMBOX */
 
