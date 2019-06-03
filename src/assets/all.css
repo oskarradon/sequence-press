@@ -847,18 +847,21 @@ li.sequenceimg a {
 	width: auto !important;
 }
 /*logo*/
-
 .logo {
-	/* background:url(sequence_logo.png) no-repeat;
-     */
-	height: 52px;
-	left: 1px;
-	overflow: hidden;
-	position: absolute;
-	text-indent: -9999px;
-	top: 30px;
 	width: 195px;
-	z-index: 100;
+}
+@media screen and (min-width: 940px) {
+	.logo {
+		/* background:url(sequence_logo.png) no-repeat;
+	     */
+		height: 52px;
+		left: 1px;
+		overflow: hidden;
+		position: absolute;
+		text-indent: -9999px;
+		top: 30px;
+		z-index: 100;
+	}
 }
 .logo a {
 	display: block;
@@ -867,11 +870,18 @@ li.sequenceimg a {
 /*navigation*/
 
 .navigation {
-	float: right;
 	list-style: none;
-	margin: 0;
-	padding: 10px 0 0 0;
+	padding: 20px 0 10px;
 }
+
+@media screen and (min-width: 940px) {
+	.navigation {
+		float: right;
+		margin: 0;
+		padding: 10px 0 0 0;
+	}
+}
+
 div.left {
 	float: left;
 }
@@ -984,18 +994,30 @@ h1.collectiontitle {
 
 div.tools-bar {
 	border-bottom: 1px solid #cac9c1;
-	height: 50px;
 }
-.navigation li {
-	float: left;
+@media screen and (min-width: 940px) {
+	div.tools-bar {
+		height: 50px;
+	}
 }
 .navigation li a {
 	display: block;
-	padding: 0 0px 0 20px;
 	color: #999999;
 	font-size: 16px;
 	text-decoration: none;
+	margin-top: 10px;
 }
+@media screen and (min-width: 940px) {
+	.navigation li {
+		float: left;
+	}
+	.navigation li a {
+		display: block;
+		margin-top: 0;
+		padding: 0 0px 0 20px;
+	}
+}
+
 .navigation li a:hover,
 .navigation li a.active,
 .list li a:hover,
@@ -1261,10 +1283,11 @@ li.actions {
 	color: #808080;
 }
 /*HEADER*/
-
-#header {
-	height: 128px;
-	position: relative;
+@media screen and (min-width: 940px) {
+	#header {
+		height: 128px;
+		position: relative;
+	}
 }
 /*MAIN CONTAINER*/
 
@@ -1353,4 +1376,5 @@ li.actions {
 }
 #custom-logo {
 	height: 51px;
+	margin-top: 20px;
 }
